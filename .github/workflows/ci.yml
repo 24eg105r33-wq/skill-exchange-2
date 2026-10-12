@@ -1,0 +1,70 @@
+name: Build project
+
+on:
+  push:
+  pull_request:
+  workflow_dispatch:
+
+permissions:
+  contents: read
+
+jobs:
+  build-backend:
+    runs-on: ubuntu-latest
+    services:
+      mysql:
+        image: mysql:8.0
+        env:
+          MYSQL_ROOT_PASSWORD: actions-test-password
+          MYSQL_DATABASE: student_skill_exchange_new
+        ports:
+          - 3306:3306
+        options: >-
+          --health-cmd="mysqladmin ping -h 127.0.0.1 -pactions-test-password"
+          --health-interval=10s
+          --health-timeout=5s
+          --health-retries=10
+    env:
+      DB_URL: jdbc:mysql://127.0.0.1:3306/student_skill_exchange_new?createDatabaseIfNotExist=true&useSSL=false&allowPublicKeyRetrieval=true&serverTimezone=UTC
+      DB_USERNAME: root
+      DB_PASSWORD: actions-test-password
+    steps:
+      - name: Check out repository
+        uses: actions/checkout@v4
+
+      - name: Set up Java 21
+        uses: actions/setup-java@v4
+        with:
+          distribution: temurin
+          java-version: '21'
+          cache: maven
+
+      - name: Build and verify backend
+        run: mvn --batch-mode --no-transfer-progress --file backend/pom.xml verify
+
+      - name: Start backend and check health
+        shell: bash
+        run: |
+          java -jar backend/target/student-skill-exchange-1.0.0.jar > backend.log 2>&1 &
+          app_pid=$!
+          trap 'kill "$app_pid" 2>/dev/null || true' EXIT
+
+          for attempt in {1..60}; do
+            if response="$(curl --fail --silent http://127.0.0.1:8080/api/health)"; then
+              echo "$response" | jq -e '.status == "ok" and .database == "connected"'
+              curl --fail --silent http://127.0.0.1:8080/ | grep -q "SkillSwap"
+              exit 0
+            fi
+            sleep 2
+          done
+
+          cat backend.log
+          echo "Backend did not become healthy within 120 seconds." >&2
+          exit 1
+
+      - name: Save runnable backend JAR
+        uses: actions/upload-artifact@v4
+        with:
+          name: student-skill-exchange-backend
+          path: backend/target/*.jar
+          if-no-files-found: error

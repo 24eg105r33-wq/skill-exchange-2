@@ -1,0 +1,60 @@
+<!doctype html>
+<html lang="en">
+<head>
+<meta charset="utf-8"><meta name="viewport" content="width=device-width, initial-scale=1">
+<title>SkillSwap — Student Skill Exchange</title><link rel="stylesheet" href="css/style.css">
+</head>
+<body>
+<header class="topbar"><a class="brand" href="#home"><span class="brand-mark">S</span> SkillSwap</a><nav><a href="#explore">Explore skills</a><a href="#requests">Requests</a></nav><div class="account"><span id="welcome">Welcome, student</span><button id="logoutBtn" class="btn btn-outline hidden">Log out</button></div></header>
+<main class="container">
+<section class="hero" id="home"><div><p class="eyebrow">LEARN TOGETHER. GROW TOGETHER.</p><h1>Your skills can take<br><span>someone further.</span></h1><p class="hero-copy">A student-powered community to teach what you know, learn what you need, and build meaningful connections on campus.</p><div class="hero-actions"><a class="btn" href="#explore">Explore skills</a><button class="btn btn-light" id="heroAccount">Create your account</button></div><div class="hero-stats"><div><strong>Peer-to-peer</strong><small>Learning community</small></div><div><strong>Skill exchange</strong><small>Share what you know</small></div><div><strong>Free to join</strong><small>Built for students</small></div></div></div><div class="hero-art"><div class="orb orb-one"></div><div class="orb orb-two"></div><div class="art-card card-top"><span class="art-icon purple">✦</span><div><b>Teach a skill</b><small>Share your strengths</small></div></div><div class="art-center"><div class="people-icon">↗</div><b>Knowledge grows<br>when shared.</b><span>Give a little. Learn a lot.</span></div><div class="art-card card-bottom"><span class="art-icon green">◎</span><div><b>Learn something new</b><small>Find your skill partner</small></div></div></div></section>
+<section class="section auth-panel" id="account"><div class="section-heading"><p class="eyebrow">GET STARTED</p><h2>Join your campus community</h2><p>Create an account or sign in to share skills and send exchange requests.</p></div><div class="auth-grid"><form id="registerForm" class="panel form-card"><h3>Create account</h3><label>Full name<input name="fullName" required maxlength="100" placeholder="Your full name"></label><label>Email address<input name="email" required type="email" maxlength="190" placeholder="you@college.edu"></label><label>Password<input name="password" required type="password" minlength="6" placeholder="At least 6 characters"></label><label>Year of study<select name="yearOfStudy" required><option value="">Choose year</option><option>1st Year</option><option>2nd Year</option><option>3rd Year</option><option>4th Year</option><option>Staff / Faculty</option></select></label><label>Department<input name="department" required maxlength="100" placeholder="e.g. Computer Science"></label><button class="btn full" type="submit">Create account</button><p class="form-message" id="registerMessage" aria-live="polite"></p></form><form id="loginForm" class="panel form-card"><h3>Welcome back</h3><p class="muted">Sign in to continue your skill exchange.</p><label>Email address<input name="email" required type="email" placeholder="you@college.edu"></label><label>Password<input name="password" required type="password" placeholder="Your password"></label><button class="btn full" type="submit">Sign in</button><p class="form-message" id="loginMessage" aria-live="polite"></p><div class="note">Your password is stored as a BCrypt hash in the database.</div></form></div></section>
+<section class="section" id="explore"><div class="section-heading row-heading"><div><p class="eyebrow">THE COMMUNITY</p><h2>Explore skills</h2><p>Find a skill to learn or a student ready to share their knowledge.</p></div><button class="btn" id="addSkillBtn">+ Add a skill</button></div><div class="filters"><input id="searchInput" placeholder="Search skills, people, or topics"><select id="typeFilter"><option value="">All listings</option><option value="TEACH">Students teaching</option><option value="LEARN">Students learning</option></select><button id="searchBtn" class="btn btn-dark">Search</button></div><div id="skillsGrid" class="skills-grid"><div class="empty-state">Loading skill listings…</div></div></section>
+<section class="section split-section"><div><p class="eyebrow">CONTRIBUTE</p><h2>Put your skills into action</h2><p class="muted">List a skill you can teach or a topic you want to learn. Add a short description so other students know how to connect with you.</p></div><form id="skillForm" class="panel form-card"><h3>Add a skill listing</h3><label>Your account<select id="skillOwner" required><option value="">Sign in first</option></select></label><label>Skill name<input name="skillName" required maxlength="100" placeholder="e.g. Java programming"></label><label>Listing type<select name="skillType" required><option value="TEACH">I can teach this</option><option value="LEARN">I want to learn this</option></select></label><label>Description<textarea name="description" required maxlength="500" rows="3" placeholder="Describe the skill or what you want to learn"></textarea></label><button class="btn full" type="submit">Publish listing</button><p class="form-message" id="skillMessage" aria-live="polite"></p></form></section>
+
+<section class="section" id="requests"><div class="section-heading"><p class="eyebrow">YOUR ACTIVITY</p><h2>Exchange requests</h2><p>Review requests connected to your account. Sign in to view your activity.</p></div><div class="request-toolbar"><label>Your account<select id="requestUser"><option value="">Sign in first</option></select></label><button id="refreshRequests" class="btn btn-dark">Refresh requests</button></div><div id="requestsList" class="requests-list"><div class="empty-state">Sign in to view requests.</div></div></section>
+
+<section class="section" id="feedback">
+  <div class="section-heading">
+    <p class="eyebrow">YOUR EXPERIENCE</p>
+    <h2>Share Your Feedback</h2>
+    <p>Completed a skill exchange? Tell us how it went.</p>
+  </div>
+
+  <form id="feedbackForm" class="panel form-card">
+    <label for="feedbackRequest">Completed exchange</label>
+    <select id="feedbackRequest" name="requestId" required>
+      <option value="">Select a completed exchange</option>
+    </select>
+
+    <label for="feedbackRating">Your rating</label>
+    <select id="feedbackRating" name="rating" required>
+      <option value="">Choose a rating</option>
+      <option value="5">★★★★★ - Excellent</option>
+      <option value="4">★★★★ - Very good</option>
+      <option value="3">★★★ - Good</option>
+      <option value="2">★★ - Fair</option>
+      <option value="1">★ - Poor</option>
+    </select>
+
+    <label for="feedbackComment">Your comments</label>
+    <textarea
+      id="feedbackComment"
+      name="comment"
+      maxlength="1000"
+      rows="4"
+      placeholder="Share your experience..."
+      required
+    ></textarea>
+
+    <button class="btn full" type="submit">Submit Feedback</button>
+    <p id="feedbackMessage" class="form-message"
+       aria-live="polite"></p>
+  </form>
+</section>
+
+<footer><a class="brand" href="#home"><span class="brand-mark">S</span> SkillSwap</a><span>Made for students, powered by sharing.</span><span id="apiStatus">Checking backend…</span></footer>
+</main>
+<dialog id="requestDialog"><form id="requestForm" method="dialog" class="form-card"><button type="button" id="closeDialog" class="dialog-close" aria-label="Close">×</button><p class="eyebrow">CONNECT WITH A STUDENT</p><h2>Request a skill exchange</h2><input type="hidden" name="skillId"><label>Your account<select name="requesterId" required><option value="">Sign in first</option></select></label><label>Message<textarea name="message" required maxlength="500" rows="4" placeholder="Introduce yourself and explain what you hope to learn"></textarea></label><button class="btn full" type="submit">Send request</button><p class="form-message" id="requestMessage" aria-live="polite"></p></form></dialog>
+<script src="js/app.js"></script>
+</body></html>
