@@ -1,0 +1,15 @@
+{
+  "name": "Student Skill Exchange",
+  "dockerComposeFile": "docker-compose.yml",
+  "service": "workspace",
+  "workspaceFolder": "/workspaces/${localWorkspaceFolderBasename}",
+  "forwardPorts": [8080],
+  "portsAttributes": {
+    "8080": {
+      "label": "Student Skill Exchange",
+      "onAutoForward": "openBrowser"
+    }
+  },
+  "postCreateCommand": "mvn --batch-mode --no-transfer-progress --file backend/pom.xml verify",
+  "postStartCommand": "bash .devcontainer/start-app.sh"
+}

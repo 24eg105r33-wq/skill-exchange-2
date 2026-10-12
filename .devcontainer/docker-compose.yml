@@ -1,0 +1,24 @@
+services:
+  workspace:
+    image: mcr.microsoft.com/devcontainers/java:1-21-bookworm
+    volumes:
+      - ..:/workspaces/${localWorkspaceFolderBasename}:cached
+    command: sleep infinity
+    environment:
+      DB_URL: jdbc:mysql://mysql:3306/student_skill_exchange_new?createDatabaseIfNotExist=true&useSSL=false&allowPublicKeyRetrieval=true&serverTimezone=UTC
+      DB_USERNAME: root
+      DB_PASSWORD: codespaces-local-only
+    depends_on:
+      mysql:
+        condition: service_healthy
+
+  mysql:
+    image: mysql:8.0
+    environment:
+      MYSQL_ROOT_PASSWORD: codespaces-local-only
+      MYSQL_DATABASE: student_skill_exchange_new
+    healthcheck:
+      test: ["CMD", "mysqladmin", "ping", "-h", "127.0.0.1", "-pcodespaces-local-only"]
+      interval: 5s
+      timeout: 5s
+      retries: 20

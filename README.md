@@ -41,6 +41,11 @@ Keep the backend terminal running while using the site.
 ## Build with GitHub Actions
 The `Build project` workflow runs automatically when you push a commit or open a pull request. It starts a temporary MySQL service, builds the backend, launches it, and checks that `/api/health` reports both the API and database as healthy. You can also start the workflow manually from the repository's **Actions** tab. A successful run saves the backend JAR as an artifact; download it from that workflow run's **Artifacts** section.
 
+## Run in GitHub Codespaces
+Codespaces runs the project in a temporary cloud development environment, similar to your local VS Code setup. Open this repository on GitHub, select **Code** → **Codespaces** → **Create codespace on main**, and wait for setup. The Codespace starts MySQL, starts the backend, and opens the forwarded port 8080 for the website. This is a development environment, not a permanent public deployment; the Codespace can stop when idle.
+
+The MySQL password in `.devcontainer/docker-compose.yml` is only for the isolated Codespaces development database. Never reuse it for a hosted or production database.
+
 ## Publish online with Railway
 GitHub Actions builds and tests the project; it does not keep it running as a website. The root `Dockerfile` packages the frontend into the Spring Boot app so Railway can serve the frontend and API from the same public URL.
 
