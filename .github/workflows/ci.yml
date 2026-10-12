@@ -52,7 +52,8 @@ jobs:
           for attempt in {1..60}; do
             if response="$(curl --fail --silent http://127.0.0.1:8080/api/health)"; then
               echo "$response" | jq -e '.status == "ok" and .database == "connected"'
-              curl --fail --silent http://127.0.0.1:8080/ | grep -q "SkillSwap"
+              page="$(curl --fail --silent http://127.0.0.1:8080/)"
+              [[ "$page" == *SkillSwap* ]]
               exit 0
             fi
             sleep 2
