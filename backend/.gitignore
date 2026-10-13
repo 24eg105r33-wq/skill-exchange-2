@@ -3,4 +3,6 @@
 .idea/
 .vscode/
 *.iml
+bin/
+/bin/
 .DS_Store

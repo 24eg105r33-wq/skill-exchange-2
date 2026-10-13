@@ -1,0 +1,7 @@
+# Netlify Redirects configuration
+# If you don't set window.API_BASE in config.js, Netlify can proxy all /api/* calls directly to Render:
+# Replace YOUR-RENDER-BACKEND with your actual Render service name, e.g. https://student-skill-backend.onrender.com
+# /api/*  https://YOUR-RENDER-BACKEND.onrender.com/api/:splat  200!
+
+# SPA / Single-page fallback:
+/*  /index.html  200

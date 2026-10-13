@@ -1,7 +1,7 @@
 
 const isLocalFrontend = location.protocol === 'file:' ||
   (['localhost', '127.0.0.1'].includes(location.hostname) && location.port !== '8080');
-const API_BASE = isLocalFrontend ? 'http://localhost:8080/api' : '/api';
+const API_BASE = window.API_BASE || (isLocalFrontend ? 'http://localhost:8080/api' : '/api');
 const $ = selector => document.querySelector(selector);
 
 let currentUser = readUser();

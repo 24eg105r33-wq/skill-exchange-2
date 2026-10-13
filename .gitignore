@@ -3,4 +3,5 @@ target/
 .idea/
 .vscode/
 *.iml
+bin/
 .DS_Store
